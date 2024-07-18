@@ -1,9 +1,16 @@
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import serverConfig from '../config/server.config';
 import * as Joi from 'joi';
 import { LoggerModule } from 'nestjs-pino';
+
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductsModule } from './products/products.module';
+import { Product } from './products/product.entity';
 
 @Module({
   providers: [
@@ -41,6 +48,13 @@ import { LoggerModule } from 'nestjs-pino';
       }),
     }),
     LoggerModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'database.sqlite',
+      entities: [Product],
+      synchronize: true,
+    }),
+    ProductsModule,
   ],
 })
 export class AppModule {}
