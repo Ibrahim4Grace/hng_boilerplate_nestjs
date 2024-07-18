@@ -5,8 +5,14 @@ import { Logger } from 'nestjs-pino';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
+import { ProductsSeed } from './products/products.seed';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
+
+  // Initialize other services and configurations
+  const productsSeed = app.get(ProductsSeed);
+  await productsSeed.run();
 
   const logger = app.get(Logger);
 

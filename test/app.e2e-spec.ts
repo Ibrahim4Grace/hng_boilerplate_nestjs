@@ -3,10 +3,10 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('ProductsController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -15,10 +15,31 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  afterAll(async () => {
+    await app.close();
+  });
+
+  it('/api/v1/products (GET)', async () => {
+    const response = await request(app.getHttpServer()).get('/api/v1/products?page=1&limit=10').expect(200);
+
+    expect(response.body).toMatchObject({
+      data: expect.any(Array),
+      totalItems: expect.any(Number),
+      totalPages: expect.any(Number),
+      currentPage: expect.any(String),
+    });
+
+    // Optionally, you can also add a check to ensure `data` array is not empty
+    expect(response.body.data.length).toBeGreaterThan(0);
+
+    // Ensure the structure of data items
+    response.body.data.forEach((product: any) => {
+      expect(product).toMatchObject({
+        id: expect.any(Number),
+        name: expect.any(String),
+        price: expect.any(Number),
+        category: expect.any(String),
+      });
+    });
   });
 });
