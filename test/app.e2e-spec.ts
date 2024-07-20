@@ -41,6 +41,7 @@ describe('ProductsController (e2e)', () => {
       expect(product).toMatchObject({
         id: expect.any(Number),
         name: expect.any(String),
+        description: expect.any(String),
         price: expect.any(Number),
         category: expect.any(String),
       });

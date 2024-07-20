@@ -12,9 +12,9 @@ export class ProductsSeed {
 
   async run() {
     const products = [
-      { name: 'Product 1', price: 10.0, category: 'Category A' },
-      { name: 'Product 2', price: 20.0, category: 'Category B' },
-      { name: 'Product 3', price: 30.0, category: 'Category A' },
+      { name: 'Product 1', description: 'Description for product 1', price: 10.0, category: 'Category A' },
+      { name: 'Product 2', description: 'Description for product 2', price: 20.0, category: 'Category B' },
+      { name: 'Product 3', description: 'Description for product 3', price: 30.0, category: 'Category A' },
     ];
 
     for (const product of products) {
