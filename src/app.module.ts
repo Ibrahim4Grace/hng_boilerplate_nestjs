@@ -7,6 +7,7 @@ import { APP_PIPE } from '@nestjs/core';
 import serverConfig from '../config/server.config';
 import * as Joi from 'joi';
 import { LoggerModule } from 'nestjs-pino';
+import HealthController from './health.controller';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
@@ -56,5 +57,6 @@ import { Product } from './products/product.entity';
     }),
     ProductsModule,
   ],
+  controllers: [HealthController]
 })
-export class AppModule {}
+export class AppModule { }
